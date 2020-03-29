@@ -34,7 +34,7 @@ export default {
     loadPosts() {
       const posts = []
       this.$axios
-        .get('http://localhost:1337/entries', {
+        .get('http://localhost:1337/entries?_sort=created_at:desc', {
           params: {}
         })
         .then(function(response) {
@@ -58,12 +58,13 @@ export default {
 <style scoped>
 .post-container {
   /* background-color: #aaaaaa; */
+  margin-top: 5vh;
 }
 .post_thumb {
   padding: 10px;
-  min-height: 30vh;
+  height: 30vh;
   background-size: cover;
-  background: no-repeat center fixed;
+  background: no-repeat center;
   border-radius: 2px;
   margin-top: 15px;
   margin-bottom: 15px;
