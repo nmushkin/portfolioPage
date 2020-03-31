@@ -9,15 +9,15 @@ var axios = require('axios');
           {{ post.Title }}
         </h1>
         <img class="cover-image" :src="'http://localhost:1337' + post.cover" />
-        <p>
-          {{ post.Entry_body }}
-        </p>
+        <div class="blog_content" v-html="post.Entry_body"></div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import showdown from 'showdown'
+const converter = new showdown.Converter()
 export default {
   name: 'ProjectPost',
   data() {
@@ -35,6 +35,7 @@ export default {
         .then((response) => {
           this.post = response.data
           this.post.cover = response.data.entry_pics[0].url
+          this.post.Entry_body = converter.makeHtml(this.post.Entry_body)
         })
       // this.post = post
     }
@@ -53,6 +54,7 @@ export default {
 }
 .cover-image {
   width: 100%;
+  max-width: 500px;
   object-fit: cover;
   margin-top: 15px;
   margin-bottom: 15px;
@@ -64,5 +66,14 @@ export default {
 .blog_body {
   width: 80%;
   padding-bottom: 5vh;
+}
+.blog_content {
+  text-align: left;
+  max-width: 100%;
+  overflow: hidden;
+}
+.blog_content >>> img {
+  max-width: 100%;
+  text-align: center;
 }
 </style>
