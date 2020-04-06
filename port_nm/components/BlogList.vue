@@ -1,7 +1,8 @@
 <template>
   <div class="post-container">
+    <h1>{{ response }}</h1>
     <div
-      v-for="(post, index) in posts"
+      v-for="(post, index) in prismPosts"
       :key="post.title + '_' + index"
       class="post_thumb"
       :style="{ backgroundImage: `url(${post.cover})` }"
@@ -21,36 +22,29 @@
 </template>
 
 <script>
+const Prismic = require('prismic-javascript')
+// const PrismicDOM = require('prismic-dom')
+const apiEndpoint = 'https://nmushkinblog.cdn.prismic.io/api/v2'
 export default {
+  async asyncData() {
+    // const prismPosts = []
+    const api = await Prismic.getApi(apiEndpoint)
+    const response = await api.query('')
+    return { response }
+    // let entry = 0
+    // for (entry in response.results) {
+    //   const post = response.results[entry]
+    //   prismPosts.push({
+    //     id: post.uid,
+    //     title: post.data.title[0].text,
+    //     content: post.data.summary_text,
+    //     cover: post.data.cover_img_link.url
+    //   })
+    // }
+    // return { prismPosts }
+  },
   data() {
-    return {
-      posts: []
-    }
-  },
-  created() {
-    this.loadPosts()
-  },
-  methods: {
-    loadPosts() {
-      const posts = []
-      this.$axios
-        .get('http://localhost:1337/entries?_sort=created_at:desc', {
-          params: {}
-        })
-        .then(function(response) {
-          let entry = 0
-          for (entry in response.data) {
-            const post = response.data[entry]
-            posts.push({
-              id: post.id,
-              title: post.Title,
-              content: post.summary,
-              cover: 'http://localhost:1337' + post.entry_pics[0].url
-            })
-          }
-        })
-      this.posts = posts
-    }
+    return { posts: [] }
   }
 }
 </script>
