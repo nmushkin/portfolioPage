@@ -3,7 +3,7 @@
     <div class="container">
       <div class="blog_body">
         <!-- <logo /> -->
-        <h1 class="title-dark" v-html="post.title"></h1>
+        <span class="title-dark" v-html="post.title"></span>
         <img class="cover-image" :src="post.cover_img" />
         <div class="blog_content" v-html="post.entry_body"></div>
       </div>
